@@ -41,7 +41,7 @@
                 const account = accounts[0];
                 console.log('Account: ', account);
                 const msg = document.getElementById('msg').value;
-                const sign = await web3.eth.personal.sign(msg, account);
+                const sign = await web3.eth.personal.sign(web3.utils.utf8ToHex(msg), account);
                 console.log('Sign: ', sign);
                 document.getElementById('sign').value = sign;
             })
