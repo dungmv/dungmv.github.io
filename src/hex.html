@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./input.css" rel="stylesheet">
+    <title>Hex Converter - DevTools</title>
+</head>
+<body>
+    <div class="max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        <!-- Back Navigation & Title -->
+        <div class="mb-8">
+            <a href="index.html" class="inline-flex items-center text-sm font-medium text-slate-500 hover:text-rose-600 transition-colors group mb-4">
+                <svg class="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Dashboard
+            </a>
+            <h1 class="text-3xl font-extrabold text-slate-900">Hex <span class="bg-linear-to-r from-rose-600 to-pink-650 bg-clip-text text-transparent text-glow">Converter</span></h1>
+            <p class="text-sm text-slate-500 mt-1">Convert text, hex codes, and base64 strings quickly and securely in your browser.</p>
+        </div>
+
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Input Card -->
+            <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <label id="input-label" for="input" class="text-sm font-semibold tracking-wide uppercase text-slate-600">Input</label>
+                        <span id="input-status" class="text-xs text-slate-400">0 characters</span>
+                    </div>
+                    <textarea 
+                        id="input" 
+                        class="w-full h-80 bg-white border border-slate-200 rounded-xl p-4 text-slate-800 font-mono text-sm focus:outline-none focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/50 transition-all resize-none"
+                        placeholder="Enter text to convert..."
+                    ></textarea>
+                </div>
+                <div class="mt-4 flex gap-3">
+                    <select id="convert-mode" class="bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-slate-700 text-sm font-semibold focus:outline-none focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/50 transition-all shadow-sm">
+                        <option value="text-to-hex">Text ➔ Hex</option>
+                        <option value="hex-to-text">Hex ➔ Text</option>
+                        <option value="hex-to-base64">Hex ➔ Base64</option>
+                        <option value="base64-to-hex">Base64 ➔ Hex</option>
+                    </select>
+                    <button id="convert-btn" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2.5 px-4 rounded-xl shadow-sm active:scale-95 transition-all">
+                        Convert
+                    </button>
+                    <button id="clear" class="bg-white hover:bg-slate-50 text-slate-500 hover:text-slate-700 p-2.5 rounded-xl border border-slate-200 active:scale-95 transition-all" title="Clear input">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Output Card -->
+            <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between glow-rose">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <label id="output-label" for="output" class="text-sm font-semibold tracking-wide uppercase text-slate-600">Hexadecimal Output</label>
+                        <span id="copy-status" class="text-xs text-emerald-600 opacity-0 transition-opacity duration-300">Copied!</span>
+                    </div>
+                    <textarea 
+                        disabled 
+                        id="output" 
+                        class="w-full h-80 bg-slate-50 border border-slate-200 rounded-xl p-4 text-slate-850 font-mono text-sm resize-none"
+                        placeholder="Converted output will appear here..."
+                    ></textarea>
+                </div>
+                <div class="mt-4">
+                    <button id="copy" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-850 text-sm font-semibold py-2.5 px-4 rounded-xl border border-slate-200 flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+                        <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
+                        </svg>
+                        Copy Result
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const inputEl = document.getElementById('input');
+        const outputEl = document.getElementById('output');
+        const modeSelect = document.getElementById('convert-mode');
+        const inputLabel = document.getElementById('input-label');
+        const outputLabel = document.getElementById('output-label');
+        const inputStatus = document.getElementById('input-status');
+        
+        const convertBtn = document.getElementById('convert-btn');
+        const clearBtn = document.getElementById('clear');
+        const copyBtn = document.getElementById('copy');
+        const copyStatus = document.getElementById('copy-status');
+
+        // Update Labels based on Select mode
+        const labelMap = {
+            'text-to-hex': { in: 'Plaintext Input', out: 'Hexadecimal Output', placeholder: 'Enter text here...' },
+            'hex-to-text': { in: 'Hexadecimal Input', out: 'Plaintext Output', placeholder: 'Enter hex code (e.g., 68656c6c6f)...' },
+            'hex-to-base64': { in: 'Hexadecimal Input', out: 'Base64 Output', placeholder: 'Enter hex code (e.g., 68656c6c6f)...' },
+            'base64-to-hex': { in: 'Base64 Input', out: 'Hexadecimal Output', placeholder: 'Enter base64 string...' }
+        };
+
+        modeSelect.addEventListener('change', () => {
+            const config = labelMap[modeSelect.value];
+            inputLabel.innerText = config.in;
+            outputLabel.innerText = config.out;
+            inputEl.placeholder = config.placeholder;
+            // Clear only output fields, keep input fields intact
+            outputEl.value = "";
+        });
+
+        // Track stats
+        inputEl.addEventListener('input', () => {
+            const length = inputEl.value.length;
+            inputStatus.innerText = `${length.toLocaleString()} character${length !== 1 ? 's' : ''}`;
+        });
+
+        // Conversion logic
+        convertBtn.addEventListener('click', () => {
+            const val = inputEl.value.trim();
+            if (!val) {
+                alert("Please enter input data first!");
+                return;
+            }
+
+            const mode = modeSelect.value;
+            try {
+                if (mode === 'text-to-hex') {
+                    // String to Hex
+                    let hex = '';
+                    for (let i = 0; i < val.length; i++) {
+                        const charHex = val.charCodeAt(i).toString(16);
+                        hex += charHex.padStart(2, '0');
+                    }
+                    outputEl.value = hex;
+                } else if (mode === 'hex-to-text') {
+                    // Hex to String
+                    const cleanHex = val.replace(/\s+/g, '');
+                    if (!/^[0-9a-fA-F]+$/.test(cleanHex)) {
+                        throw new Error("Input contains invalid non-hexadecimal characters.");
+                    }
+                    if (cleanHex.length % 2 !== 0) {
+                        throw new Error("Hexadecimal input must have an even number of characters.");
+                    }
+                    let str = '';
+                    for (let i = 0; i < cleanHex.length; i += 2) {
+                        str += String.fromCharCode(parseInt(cleanHex.substr(i, 2), 16));
+                    }
+                    outputEl.value = str;
+                } else if (mode === 'hex-to-base64') {
+                    // Hex to Base64
+                    const cleanHex = val.replace(/\s+/g, '');
+                    if (!/^[0-9a-fA-F]+$/.test(cleanHex)) {
+                        throw new Error("Input contains invalid non-hexadecimal characters.");
+                    }
+                    if (cleanHex.length % 2 !== 0) {
+                        throw new Error("Hexadecimal input must have an even number of characters.");
+                    }
+                    // Hex bytes
+                    const bytes = new Uint8Array(cleanHex.length / 2);
+                    for (let i = 0; i < cleanHex.length; i += 2) {
+                        bytes[i / 2] = parseInt(cleanHex.substr(i, 2), 16);
+                    }
+                    // Base64
+                    const base64 = btoa(String.fromCharCode.apply(null, bytes));
+                    outputEl.value = base64;
+                } else if (mode === 'base64-to-hex') {
+                    // Base64 to Hex
+                    const binaryString = atob(val);
+                    let hex = '';
+                    for (let i = 0; i < binaryString.length; i++) {
+                        const charHex = binaryString.charCodeAt(i).toString(16);
+                        hex += charHex.padStart(2, '0');
+                    }
+                    outputEl.value = hex;
+                }
+            } catch (err) {
+                outputEl.value = "Conversion Error: " + err.message;
+            }
+        });
+
+        // Clear
+        clearBtn.addEventListener('click', clearFields);
+
+        function clearFields() {
+            inputEl.value = "";
+            outputEl.value = "";
+            inputStatus.innerText = "0 characters";
+        }
+
+        // Copy
+        copyBtn.addEventListener('click', () => {
+            if (!outputEl.value) return;
+            navigator.clipboard.writeText(outputEl.value).then(() => {
+                copyStatus.style.opacity = "1";
+                setTimeout(() => {
+                    copyStatus.style.opacity = "0";
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

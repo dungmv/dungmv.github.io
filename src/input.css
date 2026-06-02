@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased min-h-screen selection:bg-cyan-500/20 selection:text-cyan-900 overflow-x-hidden;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 4px 20px -2px rgba(148, 163, 184, 0.12), 0 2px 8px -1px rgba(148, 163, 184, 0.08);
+  }
+  
+  .glass-panel-hover {
+    @apply transition-all duration-300 hover:border-cyan-500/40 hover:shadow-lg hover:shadow-slate-200/50 hover:bg-slate-50/20;
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 12px rgba(6, 182, 212, 0.15);
+  }
+
+  .glow-cyan {
+    box-shadow: 0 4px 20px -2px rgba(6, 182, 212, 0.12);
+  }
+
+  .glow-purple {
+    box-shadow: 0 4px 20px -2px rgba(168, 85, 247, 0.12);
+  }
+}
+
+/* Custom scrollbar for developer tools */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(241, 245, 249, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}

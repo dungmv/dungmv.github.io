@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="./input.css" rel="stylesheet">
+        <title>DevTools - Client-side Utilities</title>
+        <meta name="description" content="A premium collection of essential client-side developer utility tools. Encrypted, private, and fast.">
+    </head>
+
+    <body>
+        <div class="max-w-6xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+            <!-- Header Section -->
+            <header class="text-center mb-16 animate-fade-in">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-700 text-sm font-medium mb-4">
+                    <span class="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
+                    100% Client-Side & Secure
+                </div>
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900">
+                    <span class="bg-linear-to-r from-cyan-600 to-indigo-600 bg-clip-text text-transparent text-glow">DevTools</span>
+                </h1>
+                <p class="mt-4 text-lg text-slate-500 max-w-2xl mx-auto">
+                    A suite of lightweight, browser-based utilities designed for modern developers. No data leaves your machine.
+                </p>
+            </header>
+
+            <!-- Tools Grid -->
+            <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Base64 Tool Card -->
+                <div class="glass-panel glass-panel-hover rounded-2xl p-6 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20 text-cyan-600 group-hover:scale-110 transition-transform duration-300">
+                            <!-- SVG for A/Z & 64 -->
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5c-.347 2.187-1.54 4.545-3.339 6.75"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mt-4 text-slate-900 group-hover:text-cyan-600 transition-colors">Base64</h3>
+                        <p class="text-slate-500 text-sm mt-2 leading-relaxed">
+                            Encode and decode text in Base64 format locally. Supports fast processing with instant visual outputs.
+                        </p>
+                    </div>
+                    <div class="mt-6">
+                        <a href="base64.html" class="inline-flex items-center text-sm font-semibold text-purple-600 group-hover:text-purple-500">
+                            Open Tool 
+                            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- MetaMask Sign Card -->
+                <div class="glass-panel glass-panel-hover rounded-2xl p-6 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center border border-purple-500/20 text-purple-600 group-hover:scale-110 transition-transform duration-300">
+                            <!-- Web3 Wallet/Key Icon -->
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mt-4 text-slate-900 group-hover:text-purple-600 transition-colors">MetaMask Signer</h3>
+                        <p class="text-slate-500 text-sm mt-2 leading-relaxed">
+                            Securely sign custom messages using your MetaMask wallet. Supports local Web3 signature verification.
+                        </p>
+                    </div>
+                    <div class="mt-6">
+                        <a href="metamask-sign.html" class="inline-flex items-center text-sm font-semibold text-purple-600 group-hover:text-purple-500">
+                            Open Tool 
+                            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- MessagePack Visualizer Card -->
+                <div class="glass-panel glass-panel-hover rounded-2xl p-6 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 text-emerald-600 group-hover:scale-110 transition-transform duration-300">
+                            <!-- Code/File Icon -->
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mt-4 text-slate-900 group-hover:text-emerald-600 transition-colors">Msgpack Decoder</h3>
+                        <p class="text-slate-500 text-sm mt-2 leading-relaxed">
+                            Deserialize binary MessagePack encoded files into readable, formatted JSON format directly in your browser.
+                        </p>
+                    </div>
+                    <div class="mt-6">
+                        <a href="msgpack-decode.html" class="inline-flex items-center text-sm font-semibold text-purple-600 group-hover:text-purple-500">
+                            Open Tool 
+                            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Gzip Tool Card -->
+                <div class="glass-panel glass-panel-hover rounded-2xl p-6 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center border border-amber-500/20 text-amber-700 group-hover:scale-110 transition-transform duration-300">
+                            <!-- Compress Icon (Arrows Pointing In) -->
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15V19.5M15 15l5.25 5.25" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mt-4 text-slate-900 group-hover:text-amber-600 transition-colors">Gzip</h3>
+                        <p class="text-slate-500 text-sm mt-2 leading-relaxed">
+                            Decompress and view gzip-encoded content right in your browser tab. Lightweight and secure execution.
+                        </p>
+                    </div>
+                    <div class="mt-6">
+                        <a href="gzip.html" class="inline-flex items-center text-sm font-semibold text-purple-600 group-hover:text-purple-500">
+                            Open Tool 
+                            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hex Tool Card -->
+                <div class="glass-panel glass-panel-hover rounded-2xl p-6 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-rose-500/10 flex items-center justify-center border border-rose-500/20 text-rose-600 group-hover:scale-110 transition-transform duration-300">
+                            <!-- Binary/Math Icon -->
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mt-4 text-slate-900 group-hover:text-rose-600 transition-colors">Hex Converter</h3>
+                        <p class="text-slate-500 text-sm mt-2 leading-relaxed">
+                            Convert text or hexadecimal representations to base64 encoding and decode them with single clicks.
+                        </p>
+                    </div>
+                    <div class="mt-6">
+                        <a href="hex.html" class="inline-flex items-center text-sm font-semibold text-purple-600 group-hover:text-purple-500">
+                            Open Tool 
+                            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Map Card (Inactive/Mock) -->
+                <div class="glass-panel glass-panel-hover rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden group">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-slate-500/10 flex items-center justify-center border border-slate-500/20 text-slate-600 group-hover:scale-110 transition-transform duration-300">
+                            <!-- Map Pin Icon -->
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mt-4 text-slate-900 group-hover:text-slate-600 transition-colors">Interactive Map</h3>
+                        <p class="text-slate-500 text-sm mt-2 leading-relaxed">
+                            Geospatial mapping utility. Currently pointing to external routing structure.
+                        </p>
+                    </div>
+                    <div class="mt-6">
+                        <a href="map" class="inline-flex items-center text-sm font-semibold text-purple-600 group-hover:text-purple-500">
+                            Open Tool
+                            <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Footer -->
+            <footer class="mt-20 pt-8 border-t border-slate-200 text-center text-sm text-slate-400">
+                <p>&copy; 2026 DevTools. All processing runs entirely in your local browser sandbox.</p>
+            </footer>
+        </div>
+    </body>
+</html>

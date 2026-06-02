@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./input.css" rel="stylesheet">
+    <title>Base64 Encoder/Decoder - DevTools</title>
+</head>
+<body>
+    <div class="max-w-5xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        <!-- Back Navigation & Title -->
+        <div class="mb-8">
+            <a href="index.html" class="inline-flex items-center text-sm font-medium text-slate-500 hover:text-cyan-600 transition-colors group mb-4">
+                <svg class="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Dashboard
+            </a>
+            <h1 class="text-3xl font-extrabold text-slate-900">Base64 <span class="bg-linear-to-r from-cyan-600 to-indigo-600 bg-clip-text text-transparent text-glow">Encoder / Decoder</span></h1>
+            <p class="text-sm text-slate-500 mt-1">Convert raw text to base64 encoding and back instantly, fully client-side.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Source Input Card -->
+            <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <label for="source" class="text-sm font-semibold tracking-wide uppercase text-slate-600">Source Text</label>
+                        <span id="char-count" class="text-xs text-slate-400">0 characters</span>
+                    </div>
+                    <textarea 
+                        class="w-full h-80 bg-white border border-slate-200 rounded-xl p-4 text-slate-800 font-mono text-sm focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all resize-none" 
+                        name="source" 
+                        id="source" 
+                        placeholder="Enter text to encode or decode..."
+                    ></textarea>
+                </div>
+                <div class="mt-4 flex gap-3">
+                    <button id="encode" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold py-2.5 px-4 rounded-xl shadow-sm active:scale-95 transition-all">
+                        Encode to Base64
+                    </button>
+                    <button id="decode" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-semibold py-2.5 px-4 rounded-xl border border-slate-200 active:scale-95 transition-all">
+                        Decode Base64
+                    </button>
+                    <button id="clear" class="bg-white hover:bg-slate-50 text-slate-500 hover:text-slate-700 p-2.5 rounded-xl border border-slate-200 active:scale-95 transition-all" title="Clear input">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result Output Card -->
+            <div class="glass-panel rounded-2xl p-6 flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <label for="viewer" class="text-sm font-semibold tracking-wide uppercase text-slate-600">Result</label>
+                        <span id="copy-status" class="text-xs text-emerald-600 opacity-0 transition-opacity duration-300">Copied to clipboard!</span>
+                    </div>
+                    <textarea 
+                        disabled 
+                        class="w-full h-80 bg-slate-50 border border-slate-200 rounded-xl p-4 text-slate-850 font-mono text-sm resize-none" 
+                        name="viewer" 
+                        id="viewer" 
+                        placeholder="Your output will appear here..."
+                    ></textarea>
+                </div>
+                <div class="mt-4">
+                    <button id="copy" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-850 text-sm font-semibold py-2.5 px-4 rounded-xl border border-slate-200 flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+                        <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
+                        </svg>
+                        Copy Result
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const viewerEl = document.getElementById("viewer");
+        const sourceEl = document.getElementById("source");
+        const charCountEl = document.getElementById("char-count");
+        const copyStatusEl = document.getElementById("copy-status");
+        
+        // Character count utility
+        sourceEl.addEventListener("input", function() {
+            const count = sourceEl.value.length;
+            charCountEl.textContent = `${count.toLocaleString()} character${count !== 1 ? 's' : ''}`;
+        });
+
+        // Encode logic
+        document.getElementById("encode").addEventListener("click", function() {
+            try {
+                viewerEl.value = btoa(unescape(encodeURIComponent(sourceEl.value)));
+            } catch (err) {
+                viewerEl.value = "Error encoding source: " + err.message;
+            }
+        });
+
+        // Decode logic
+        document.getElementById("decode").addEventListener("click", function() {
+            try {
+                viewerEl.value = decodeURIComponent(escape(atob(sourceEl.value)));
+            } catch (err) {
+                viewerEl.value = "Error decoding source. Please check if the input is a valid Base64 string.\nDetails: " + err.message;
+            }
+        });
+
+        // Clear logic
+        document.getElementById("clear").addEventListener("click", function() {
+            sourceEl.value = "";
+            viewerEl.value = "";
+            charCountEl.textContent = "0 characters";
+        });
+
+        // Copy logic
+        document.getElementById("copy").addEventListener("click", function() {
+            if (!viewerEl.value) return;
+            
+            navigator.clipboard.writeText(viewerEl.value).then(() => {
+                copyStatusEl.style.opacity = "1";
+                setTimeout(() => {
+                    copyStatusEl.style.opacity = "0";
+                }, 2000);
+            }).catch(err => {
+                console.error("Could not copy text: ", err);
+            });
+        });
+    </script>
+</body>
+</html>

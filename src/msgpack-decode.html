@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./input.css" rel="stylesheet">
+    <title>MessagePack Decoder - DevTools</title>
+</head>
+<body>
+    <div class="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+        <!-- Back Navigation & Title -->
+        <div class="mb-8">
+            <a href="index.html" class="inline-flex items-center text-sm font-medium text-slate-500 hover:text-emerald-600 transition-colors group mb-4">
+                <svg class="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Dashboard
+            </a>
+            <h1 class="text-3xl font-extrabold text-slate-900">Msgpack <span class="bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent text-glow">Decoder</span></h1>
+            <p class="text-sm text-slate-500 mt-1">De-serialize and view raw binary MessagePack payloads into formatted JSON client-side.</p>
+        </div>
+
+        <div class="space-y-6">
+            <!-- Upload Dropzone -->
+            <div id="dropzone" class="glass-panel border-2 border-dashed border-slate-200 hover:border-emerald-500/50 bg-white hover:bg-slate-50/50 rounded-2xl p-8 text-center transition-all cursor-pointer group glow-emerald">
+                <input type="file" id="msgpack-file-input" class="hidden">
+                <div class="flex flex-col items-center justify-center space-y-3">
+                    <div class="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-slate-700">Click to upload or drag & drop</p>
+                        <p class="text-xs text-slate-400 mt-1">Upload any binary MessagePack file (.msgpack, .bin, .dat)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upload File Meta Status -->
+            <div id="file-meta" class="hidden glass-panel rounded-xl p-4 justify-between items-center bg-slate-50 border border-slate-200">
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <div>
+                        <span id="file-name" class="text-sm font-bold text-slate-700 block">filename.msgpack</span>
+                        <span id="file-size" class="text-xs text-slate-400">0 KB</span>
+                    </div>
+                </div>
+                <button id="reset" class="text-xs text-slate-500 hover:text-rose-600 transition-colors uppercase font-bold tracking-wider">
+                    Remove
+                </button>
+            </div>
+
+            <!-- Error Banner -->
+            <div id="error-banner" class="hidden glass-panel rounded-xl p-4 border-l-4 border-l-rose-500 bg-rose-50 text-rose-800 text-sm font-medium items-center justify-between">
+                <span id="error-message">Error decoding MessagePack data.</span>
+                <button id="close-error" class="text-slate-500 hover:text-slate-700">✕</button>
+            </div>
+
+            <!-- Output Card -->
+            <div class="glass-panel rounded-2xl p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-sm font-semibold tracking-wide uppercase text-slate-600">Decoded JSON</span>
+                    <span id="copy-status" class="text-xs text-emerald-600 opacity-0 transition-opacity duration-300">Copied decoded output!</span>
+                </div>
+                
+                <div class="relative">
+                    <textarea 
+                        id="output" 
+                        readonly 
+                        class="w-full h-96 bg-slate-50 border border-slate-200 rounded-xl p-4 text-slate-800 font-mono text-sm leading-relaxed overflow-y-auto resize-none focus:outline-none focus:ring-0"
+                        placeholder="Waiting for MessagePack payload..."
+                    ></textarea>
+                </div>
+
+                <div class="mt-4">
+                    <button id="copy" disabled class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-semibold py-2.5 px-4 rounded-xl border border-slate-200 flex items-center justify-center gap-2 active:scale-[0.98] transition-all disabled:opacity-40">
+                        <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
+                        </svg>
+                        Copy Decoded JSON
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Dependencies -->
+    <script crossorigin src="https://unpkg.com/@msgpack/msgpack"></script>
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('msgpack-file-input');
+        const fileMeta = document.getElementById('file-meta');
+        const fileNameEl = document.getElementById('file-name');
+        const fileSizeEl = document.getElementById('file-size');
+        const resetBtn = document.getElementById('reset');
+        
+        const output = document.getElementById('output');
+        const copyBtn = document.getElementById('copy');
+        const copyStatus = document.getElementById('copy-status');
+        
+        const errorBanner = document.getElementById('error-banner');
+        const errorMessage = document.getElementById('error-message');
+        const closeError = document.getElementById('close-error');
+
+        const fr = new FileReader();
+
+        // Drag & Drop event handlers
+        dropzone.addEventListener('click', () => fileInput.click());
+
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('border-emerald-500/80');
+            dropzone.classList.add('bg-emerald-50/10');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('border-emerald-500/80');
+            dropzone.classList.remove('bg-emerald-50/10');
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('border-emerald-500/80');
+            dropzone.classList.remove('bg-emerald-50/10');
+            
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                processFile(fileInput.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', function () {
+            if (this.files.length) {
+                processFile(this.files[0]);
+            }
+        });
+
+        function processFile(file) {
+            hideError();
+            
+            // Show file meta
+            fileNameEl.textContent = file.name;
+            fileSizeEl.textContent = formatBytes(file.size);
+            fileMeta.classList.remove('hidden');
+            
+            // Read binary
+            fr.readAsArrayBuffer(file);
+        }
+
+        fr.onload = function() {
+            try {
+                const data = fr.result;
+                const decoded = MessagePack.decode(data);
+                output.value = JSON.stringify(decoded, null, 2);
+                copyBtn.removeAttribute('disabled');
+            } catch (err) {
+                console.error("MessagePack decode failed: ", err);
+                showError("Decoding Failed: The uploaded file is either not a valid MessagePack payload or is corrupt. Details: " + err.message);
+                output.value = "";
+                copyBtn.setAttribute('disabled', 'true');
+            }
+        };
+
+        // Reset state
+        resetBtn.addEventListener('click', () => {
+            fileInput.value = "";
+            fileMeta.classList.add('hidden');
+            output.value = "";
+            copyBtn.setAttribute('disabled', 'true');
+            hideError();
+        });
+
+        // Error handlers
+        function showError(msg) {
+            errorMessage.textContent = msg;
+            errorBanner.classList.remove('hidden');
+        }
+
+        function hideError() {
+            errorBanner.classList.add('hidden');
+        }
+
+        closeError.addEventListener('click', hideError);
+
+        // Bytes formatter
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        // Copy button trigger
+        copyBtn.addEventListener('click', () => {
+            if (!output.value) return;
+            
+            navigator.clipboard.writeText(output.value).then(() => {
+                copyStatus.style.opacity = "1";
+                setTimeout(() => {
+                    copyStatus.style.opacity = "0";
+                }, 2000);
+            }).catch(err => {
+                console.error("Copy failed: ", err);
+            });
+        });
+    </script>
+</body>
+</html>
